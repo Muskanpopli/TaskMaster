@@ -1,0 +1,5 @@
+ECHO is on.
+node_modules/
+.env
+build/
+dist/

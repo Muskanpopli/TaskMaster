@@ -1,0 +1,76 @@
+<%- include('partials/header.ejs'); -%>
+
+
+  <div class="box" id="heading">
+    <h1>
+      <%= listTitle %>
+    </h1>
+  </div>
+  <div class="box">
+    <div class="date">
+      <h3>Date: <span class="text"> <%= todayDate %></h3><span></h3>
+      <h3>Affirmtion:<span class="text"> <%= affirmationText %> </span></h3>
+    </div>
+   
+    <% for(let item of listItems){%>
+      <div class="item">
+        <form class = "delete-task" action="/delete" method="post">
+          <input type="checkbox" onchange="this.form.submit()" name="deleteItemId" value="<%= item.id %>">
+        </form>
+       
+        <p id="title<%=item.id%>">
+          <%= item.title %>
+        </p>
+
+        <form class="edit" action="/edit" method="post">
+          <input type="hidden" name="updatedItemId" value="<%= item.id %>">
+          <input id="input<%=item.id%>" type="text" name="updatedItemTitle" value="<%= item.title %>" autocomplete="off"
+            autofocus="true" hidden="true" />       
+          <button id="done<%=item.id%>" class="edit" type="submit" hidden><img class="icon"
+              src="/assets/icons/check-solid.svg" alt="tick image"></button>
+        </form>
+        <button id="edit<%=item.id%>" class="edit" onclick="handler('<%=item.id%>')"><img class="icon"
+            src="/assets/icons/pencil-solid.svg" alt="pencil image"></button>
+      </div>
+      <% } %>
+      <div class="form-box"></div>
+        <form class="item" action="/add" method="post">
+        <div class="input-container">
+          <input 
+            type="text" 
+            name="newItem" 
+            placeholder="Enter New Task" 
+            autocomplete="off" 
+            autofocus 
+          />
+      </div>
+         
+    <div class="priority-container">
+      <div class="custom-select">
+        <select name="priority" id="priority">
+          <option value="" disabled selected hidden>Select Priority</option>
+          <option value="1">High Priority</option>
+          <option value="2">Intermediate Priority</option>
+          <option value="3">Low Priority</option>
+        </select>
+      </div>
+    </div>
+         
+    <button class="add" type="submit" name="list" value=<%=listTitle %> >+</button>
+  </form>
+  </div>
+
+  <script>
+    function handler(id) {
+      document.getElementById("title" + id).setAttribute("hidden", true)
+      document.getElementById("edit" + id).setAttribute("hidden", true)
+      document.getElementById("done" + id).removeAttribute("hidden")
+      document.getElementById("input" + id).removeAttribute("hidden")
+
+      inputField.hidden = false; 
+      doneButton.hidden = false; 
+      editButton.hidden = true; 
+      
+    }
+  </script>
+  <%- include('partials/footer.ejs'); -%>
